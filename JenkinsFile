@@ -1,0 +1,29 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Checkout') {
+            steps {
+                // Pull code from Git
+                git 'https://github.com/sarfaraz017/nodejs-app.git'
+            }
+        }
+        stage('Build') {
+            steps {
+                script {
+                    // Build the Docker image
+                    docker.build('nodejs-app')
+                }
+            }
+        }
+        stage('Run') {
+            steps {
+                script {
+                    // Run the app in the container
+                    docker.image('nodejs-app').run('-p 3000:3000')
+                }
+            }
+        }
+    }
+}
+
